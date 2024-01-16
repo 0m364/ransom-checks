@@ -1,0 +1,18 @@
+ ```powershell
+# Define the target folders to scan for ransomware
+$targetFolders = Get-ChildItem -Path C:\Temp, C:\Windows\Temp, C:\Public, C:\Shared
+
+# Iterate through each target folder
+foreach ($folder in $targetFolders) {
+    # Get a list of all files in the folder
+    $files = Get-ChildItem -Path $folder.FullName -Recurse -Force
+
+    # Filter the list of files to include only PDF files
+    $pdfFiles = $files | Where-Object { $_.Extension -eq ".pdf" }
+
+    # Prompt the virus scanner to scan each PDF file
+    foreach ($pdfFile in $pdfFiles) {
+        Scan-File -Path $pdfFile.FullName -Action Scan
+    }
+}
+```
